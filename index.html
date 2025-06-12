@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zuluft-Rechner für RLT-Anlagen</title>
+    <title>Zuluft-Rechner für RLT-Anlagen (Profi)</title>
     <style>
         :root {
             --primary-color: #007bff;
@@ -12,6 +12,8 @@
             --border-color: #dee2e6;
             --shadow-color: rgba(0, 0, 0, 0.1);
             --card-bg: #fff;
+            --success-color: #28a745;
+            --info-color: #17a2b8;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -23,7 +25,7 @@
             justify-content: center;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
         }
         h1, h2 {
@@ -77,7 +79,7 @@
             display: none; /* Initially hidden */
         }
         .result-section {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         .result-item {
             display: flex;
@@ -94,6 +96,24 @@
         .result-item .value {
             font-weight: bold;
             color: var(--primary-color);
+        }
+        .process-overview {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .process-info {
+            background-color: #e2f3ff;
+            color: #004085;
+            border: 1px solid #b8daff;
+        }
+        .process-success {
+             background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
         .footer {
             text-align: center;
@@ -120,43 +140,60 @@
             <h2>Eingabewerte</h2>
             <div class="grid-container">
                 <div>
+                    <h4>Außenluft</h4>
                     <div class="input-group">
-                        <label for="tempAussen">Außenluft-Temperatur (°C)</label>
-                        <input type="number" id="tempAussen" value="35.0" step="0.1">
+                        <label for="tempAussen">Temperatur (°C)</label>
+                        <input type="number" id="tempAussen" value="-10.0" step="0.1">
                     </div>
                     <div class="input-group">
-                        <label for="rhAussen">Außenluft-Relative Feuchte (%)</label>
-                        <input type="number" id="rhAussen" value="96.0" step="0.1">
+                        <label for="rhAussen">Relative Feuchte (%)</label>
+                        <input type="number" id="rhAussen" value="80.0" step="0.1">
+                    </div>
+                </div>
+                <div>
+                    <h4>Zuluft (Soll)</h4>
+                    <div class="input-group">
+                        <label for="tempZuluft">Temperatur (°C)</label>
+                        <input type="number" id="tempZuluft" value="20.0" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="rhZuluft">Relative Feuchte (%)</label>
+                        <input type="number" id="rhZuluft" value="50.0" step="0.1">
+                    </div>
+                </div>
+                <div>
+                    <h4>Anlagenparameter</h4>
+                    <div class="input-group">
+                        <label for="volumenstrom">Luft-Volumenstrom (m³/h)</label>
+                        <input type="number"id="volumenstrom" value="5000" step="100">
                     </div>
                      <div class="input-group">
+                        <label for="tempVorerhitzer">Temp. nach Vorerhitzer (°C)</label>
+                        <input type="number" id="tempVorerhitzer" value="5.0" step="0.1">
+                    </div>
+                </div>
+            </div>
+             <hr style="margin: 1rem 0;">
+             <div class="grid-container">
+                 <div>
+                    <h4>Systemparameter</h4>
+                    <div class="input-group">
                         <label for="druck">Luftdruck (hPa)</label>
                         <input type="number" id="druck" value="1013.25" step="0.1">
                     </div>
                 </div>
                 <div>
                     <div class="input-group">
-                        <label for="tempZuluft">Zuluft-Solltemperatur (°C)</label>
-                        <input type="number" id="tempZuluft" value="20.0" step="0.1">
-                    </div>
-                    <div class="input-group">
-                        <label for="rhZuluft">Zuluft-Soll-Relative Feuchte (%)</label>
-                        <input type="number" id="rhZuluft" value="50.0" step="0.1">
-                    </div>
-                    <div class="input-group">
-                        <label for="volumenstrom">Luft-Volumenstrom (m³/h)</label>
-                        <input type="number"id="volumenstrom" value="5000" step="100">
-                    </div>
-                </div>
-                 <div>
-                    <div class="input-group">
-                        <label for="tempKuehlWasser">Kühlwasser (°C Vorlauf/Rücklauf)</label>
+                        <label for="tempKuehlWasser">Kühlwasser (°C Vor-/Rücklauf)</label>
                         <div style="display: flex; gap: 10px;">
                             <input type="number" id="tempKuehlVorlauf" value="8" step="1">
                             <input type="number" id="tempKuehlRuecklauf" value="13" step="1">
                         </div>
                     </div>
+                </div>
+                <div>
                     <div class="input-group">
-                        <label for="tempHeizWasser">Heizwasser (°C Vorlauf/Rücklauf)</label>
+                        <label for="tempHeizWasser">Heizwasser (°C Vor-/Rücklauf)</label>
                         <div style="display: flex; gap: 10px;">
                             <input type="number" id="tempHeizVorlauf" value="70" step="1">
                             <input type="number" id="tempHeizRuecklauf" value="50" step="1">
@@ -171,7 +208,7 @@
     </main>
 
     <footer class="footer">
-        <p>Erstellt mit Gemini | Berechnungen basieren auf psychrometrischen Standardformeln.</p>
+        <p>Erstellt mit Gemini | Berechnungen mit Frostschutzlogik und Sättigungsdruck über Eis/Wasser.</p>
     </footer>
 </div>
 
@@ -181,46 +218,45 @@
     const resultsCard = document.getElementById('results-card');
 
     // Constants
-    const R_d = 287.058; // J/(kg·K) - Spezifische Gaskonstante für trockene Luft
-    const R_v = 461.52;  // J/(kg·K) - Spezifische Gaskonstante für Wasserdampf
-    const CP_WASSER = 4.186; // kJ/(kg·K) - Spezifische Wärmekapazität von Wasser
+    const R_d = 287.058; // J/(kg·K)
+    const R_v = 461.52;  // J/(kg·K)
+    const CP_WASSER = 4.186; // kJ/(kg·K)
+    const TOLERANCE = 0.01; 
 
     // --- Psychrometric Helper Functions ---
-
-    // Berechnet Sättigungsdampfdruck (Pa) über Wasser mit der Magnus-Formel
+    // Berechnet Sättigungsdampfdruck (Pa)
+    // Unterscheidet zw. Sättigung über Wasser (>0°C) und Eis (<0°C)
     function getPs(T) {
-        return 611.2 * Math.exp((17.62 * T) / (243.12 + T));
+        if (T >= 0) {
+            // Magnus-Formel für Wasser
+            return 611.2 * Math.exp((17.62 * T) / (243.12 + T));
+        } else {
+            // Magnus-Formel für Eis (andere Koeffizienten)
+            return 611.2 * Math.exp((22.46 * T) / (272.62 + T));
+        }
     }
-
-    // Berechnet absolute Feuchte (g/kg) aus T(°C), rH(%) und p(Pa)
     function getX(T, rH, p) {
         const p_s = getPs(T);
         const p_v = (rH / 100) * p_s;
-        if (p_v >= p) return Infinity; // Physikalisch nicht möglich
+        if (p_v >= p) return Infinity;
         return 622 * (p_v / (p - p_v));
     }
-
-    // Berechnet relative Feuchte (%) aus T(°C), x(g/kg) und p(Pa)
     function getRh(T, x, p) {
         const p_s = getPs(T);
         const p_v = (p * x) / (622 + x);
         return (p_v / p_s) * 100;
     }
-
-    // Berechnet Taupunkttemperatur (°C) aus x(g/kg) und p(Pa)
     function getTd(x, p) {
         const p_v = (p * x) / (622 + x);
-        const ln_pv = Math.log(p_v / 611.2);
-        return (243.12 * ln_pv) / (17.62 - ln_pv);
+        const log_pv_ratio = Math.log(p_v / 611.2);
+        // Formel muss je nach Druck umgestellt werden, um zu sehen, ob Taupunkt über/unter 0 liegt.
+        // Vereinfachung: Wir nutzen die Wasser-Formel, da der Taupunkt meist > 0°C liegt.
+        return (243.12 * log_pv_ratio) / (17.62 - log_pv_ratio);
     }
-    
-    // Berechnet die Enthalpie (kJ/kg) der feuchten Luft
     function getH(T, x_g_kg) {
         const x_kg_kg = x_g_kg / 1000.0;
         return 1.006 * T + x_kg_kg * (2501 + 1.86 * T);
     }
-
-    // Berechnet die Dichte (kg/m³) der feuchten Luft
     function getRho(T_C, x_g_kg, p_Pa) {
         const T_K = T_C + 273.15;
         const x_kg_kg = x_g_kg / 1000.0;
@@ -228,7 +264,6 @@
         const p_d = p_Pa - p_v;
         return (p_d / (R_d * T_K)) + (p_v / (R_v * T_K));
     }
-
 
     function calculate() {
         // --- Get Input Values ---
@@ -238,164 +273,186 @@
         const tempZuluft = parseFloat(document.getElementById('tempZuluft').value);
         const rhZuluft = parseFloat(document.getElementById('rhZuluft').value);
         const volumenstrom = parseFloat(document.getElementById('volumenstrom').value);
+        const tempVorerhitzerSoll = parseFloat(document.getElementById('tempVorerhitzer').value);
         const tempKuehlVorlauf = parseFloat(document.getElementById('tempKuehlVorlauf').value);
         const tempKuehlRuecklauf = parseFloat(document.getElementById('tempKuehlRuecklauf').value);
         const tempHeizVorlauf = parseFloat(document.getElementById('tempHeizVorlauf').value);
         const tempHeizRuecklauf = parseFloat(document.getElementById('tempHeizRuecklauf').value);
 
-        // Basic validation
-        if ([tempAussen, rhAussen, druck_hPa, tempZuluft, rhZuluft, volumenstrom].some(isNaN)) {
+        if ([tempAussen, rhAussen, druck_hPa, tempZuluft, rhZuluft, volumenstrom, tempVorerhitzerSoll].some(isNaN)) {
             resultsCard.style.display = 'none';
             return;
         }
 
         const druck_Pa = druck_hPa * 100;
 
-        // --- Calculations ---
-
-        // 1. Zustand Außenluft
+        // --- State Calculations ---
         const xAussen = getX(tempAussen, rhAussen, druck_Pa);
         const hAussen = getH(tempAussen, xAussen);
-        const tdAussen = getTd(xAussen, druck_Pa);
         const rhoAussen = getRho(tempAussen, xAussen, druck_Pa);
-
-        // 2. Zustand Zuluft (Ziel)
         const xZuluft = getX(tempZuluft, rhZuluft, druck_Pa);
         const hZuluft = getH(tempZuluft, xZuluft);
-
-        // 3. Zustand nach Kühler
-        const tempNachKuehler = getTd(xZuluft, druck_Pa); // Luft wird auf Taupunkt der Zuluft gekühlt
-        const rhNachKuehler = getRh(tempNachKuehler, xZuluft, druck_Pa);
-        const hNachKuehler = getH(tempNachKuehler, xZuluft);
-
-        // 4. Luftstrom
+        
         const massenstrom_kg_h = volumenstrom * rhoAussen;
         const massenstrom_kg_s = massenstrom_kg_h / 3600;
 
-        // 5. Entfeuchtung / Kühler
-        const feuchtedifferenz = xAussen - xZuluft;
-        const kondensatmenge_kg_h = massenstrom_kg_s * (feuchtedifferenz / 1000) * 3600;
-        const kaelteleistung_kW = massenstrom_kg_s * (hAussen - hNachKuehler);
-        const deltaTKuehl = Math.abs(tempKuehlRuecklauf - tempKuehlVorlauf);
-        const wasserVolumenstromKuehl_m3_h = deltaTKuehl > 0 ? (kaelteleistung_kW / (1000 * CP_WASSER * deltaTKuehl)) * 3600 : 0;
+        // --- Process Logic ---
+        let vorerhitzerLeistung_kW = 0;
+        let kaelteleistung_kW = 0;
+        let nacherhitzerLeistung_kW = 0;
+        let kondensatmenge_kg_h = 0;
+        let processDescription = "";
+        let resultsHTML = "";
         
-        // 6. Erwärmer / Nacherhitzer
-        const temperaturerhoehung = tempZuluft - tempNachKuehler;
-        const heizleistung_kW = massenstrom_kg_s * (hZuluft - hNachKuehler);
-        const deltaTHeiz = Math.abs(tempHeizVorlauf - tempHeizRuecklauf);
-        const wasserVolumenstromHeiz_m3_h = deltaTHeiz > 0 ? (heizleistung_kW / (1000 * CP_WASSER * deltaTHeiz)) * 3600 : 0;
+        let tempStart = tempAussen;
+        let hStart = hAussen;
+        let stateNachVorerhitzer = null;
+
+        // Step 1: Vorerhitzer / Frostschutz
+        if (tempAussen < tempVorerhitzerSoll) {
+            const hNachVorerhitzer = getH(tempVorerhitzerSoll, xAussen);
+            vorerhitzerLeistung_kW = massenstrom_kg_s * (hNachVorerhitzer - hAussen);
+            tempStart = tempVorerhitzerSoll;
+            hStart = hNachVorerhitzer;
+            stateNachVorerhitzer = { temp: tempStart, rh: getRh(tempStart, xAussen, druck_Pa), x: xAussen, h: hStart };
+        }
+
+        // Step 2: Main Treatment (Kühlen/Heizen)
+        let prozesskette = [];
+        if (vorerhitzerLeistung_kW > 0) prozesskette.push("Vorerhitzen");
         
-        // --- Update UI ---
+        // Fall A: Entfeuchtung notwendig (Außenluft feuchter als Ziel)
+        if (xAussen > xZuluft + TOLERANCE) {
+            prozesskette.push("Kühlen & Entfeuchten");
+            const tempNachKuehler = getTd(xZuluft, druck_Pa);
+            const hNachKuehler = getH(tempNachKuehler, xZuluft);
+
+            kaelteleistung_kW = massenstrom_kg_s * (hStart - hNachKuehler);
+            kondensatmenge_kg_h = massenstrom_kg_s * (xAussen - xZuluft) / 1000 * 3600;
+
+            if (tempNachKuehler < tempZuluft - TOLERANCE) {
+                prozesskette.push("Nacherhitzen");
+                nacherhitzerLeistung_kW = massenstrom_kg_s * (hZuluft - hNachKuehler);
+            }
+            resultsHTML = buildFullProcessHtml(stateNachVorerhitzer, {temp: tempNachKuehler, x: xZuluft});
+
+        } else { // Fall B: Keine Entfeuchtung
+            // Nur Heizen (Nacherhitzer)
+            if (tempStart < tempZuluft - TOLERANCE) {
+                prozesskette.push("Nacherhitzen");
+                const hZuluftBeiXAussen = getH(tempZuluft, xAussen);
+                nacherhitzerLeistung_kW = massenstrom_kg_s * (hZuluftBeiXAussen - hStart);
+                 if (xAussen < xZuluft - TOLERANCE) {
+                    prozesskette.push("(Befeuchtung nötig)");
+                }
+            } 
+            // Nur Kühlen (sensibel)
+            else if (tempStart > tempZuluft + TOLERANCE) {
+                prozesskette.push("Kühlen (sensibel)");
+                const hZuluftBeiXAussen = getH(tempZuluft, xAussen);
+                kaelteleistung_kW = massenstrom_kg_s * (hStart - hZuluftBeiXAussen);
+            }
+        }
+        
+        if (prozesskette.length === 0) {
+            processDescription = "Idealzustand: Keine Luftbehandlung erforderlich";
+            resultsHTML = `<div class="process-overview process-success">${processDescription}</div>`;
+        } else {
+             processDescription = "Prozess: " + prozesskette.join(" → ");
+             if(!resultsHTML) { // Build simple HTML if not already built by full process
+                resultsHTML = buildSimpleProcessHtml(stateNachVorerhitzer);
+             }
+        }
+
+        // --- Render UI ---
+        const overviewHTML = `<div class="process-overview ${processDescription.includes('Ideal') ? 'process-success' : 'process-info'}">${processDescription}</div>`;
+        
         resultsCard.style.display = 'block';
         resultsCard.innerHTML = `
-            <div class="result-section">
-                <h2>📊 Ergebnisse</h2>
-                <div class="result-item">
-                    <span class="label">🌍 Außenluft</span><span class="value"></span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Temperatur</span><span class="value">${tempAussen.toFixed(1)} °C</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Relative Feuchte</span><span class="value">${rhAussen.toFixed(1)} %</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Absolute Feuchte</span><span class="value">${xAussen.toFixed(2)} g/kg</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Taupunkt</span><span class="value">${tdAussen.toFixed(1)} °C</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Enthalpie</span><span class="value">${hAussen.toFixed(2)} kJ/kg</span>
-                </div>
+            <h2>📊 Zustände & Ergebnisse</h2>
+            ${overviewHTML}
+            <div class="grid-container">
+                ${buildStateBlock("🌍 Außenluft", tempAussen, rhAussen, xAussen, hAussen)}
+                ${resultsHTML}
+                ${buildStateBlock("💨 Zuluft (Soll)", tempZuluft, rhZuluft, xZuluft, hZuluft)}
             </div>
             <hr>
-            <div class="result-section">
-                <div class="result-item">
-                    <span class="label">🌡️ Zustand nach dem Kühler</span><span class="value"></span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Temperatur</span><span class="value">${tempNachKuehler.toFixed(1)} °C</span>
-                </div>
-                 <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Relative Feuchte</span><span class="value">${rhNachKuehler.toFixed(1)} %</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Absolute Feuchte</span><span class="value">${xZuluft.toFixed(2)} g/kg</span>
-                </div>
-            </div>
-            <hr>
-             <div class="result-section">
-                <div class="result-item">
-                    <span class="label">💨 Zuluft (nach Erhitzer)</span><span class="value"></span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Temperatur</span><span class="value">${tempZuluft.toFixed(1)} °C</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Relative Feuchte</span><span class="value">${rhZuluft.toFixed(1)} %</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Absolute Feuchte</span><span class="value">${xZuluft.toFixed(2)} g/kg</span>
-                </div>
-            </div>
-            <hr>
-             <div class="result-section">
-                <div class="result-item">
-                    <span class="label">🔁 Luftstrom</span><span class="value"></span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Dichte Außenluft</span><span class="value">${rhoAussen.toFixed(3)} kg/m³</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Volumenstrom</span><span class="value">${volumenstrom.toFixed(0)} m³/h</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Massenstrom</span><span class="value">${massenstrom_kg_h.toFixed(0)} kg/h</span>
-                </div>
-            </div>
-            <hr>
-             <div class="result-section">
-                <div class="result-item">
-                    <span class="label">💧 Kühler / Entfeuchtung</span><span class="value"></span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Kälteleistung</span><span class="value">${kaelteleistung_kW.toFixed(2)} kW</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Wasser-Volumenstrom (${tempKuehlVorlauf}°C/${tempKuehlRuecklauf}°C)</span><span class="value">${wasserVolumenstromKuehl_m3_h.toFixed(2)} m³/h</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Feuchtedifferenz</span><span class="value">${feuchtedifferenz.toFixed(2)} g/kg</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Kondensatmenge</span><span class="value">${kondensatmenge_kg_h.toFixed(2)} kg/h</span>
-                </div>
-            </div>
-            <hr>
-            <div class="result-section">
-                <div class="result-item">
-                    <span class="label">🔥 Erhitzer / Nacherhitzung</span><span class="value"></span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Heizleistung</span><span class="value">${heizleistung_kW.toFixed(2)} kW</span>
-                </div>
-                 <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Wasser-Volumenstrom (${tempHeizVorlauf}°C/${tempHeizRuecklauf}°C)</span><span class="value">${wasserVolumenstromHeiz_m3_h.toFixed(2)} m³/h</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">&nbsp;&nbsp;&nbsp;- Temperaturerhöhung</span><span class="value">${temperaturerhoehung.toFixed(1)} K</span>
-                </div>
-            </div>
+            ${buildFlowBlock(rhoAussen, volumenstrom, massenstrom_kg_h)}
+            ${buildPerformanceBlocks()}
         `;
+        
+        // --- HTML Builder Functions ---
+        function buildStateBlock(title, temp, rh, x, h, isVisible = true) {
+            if (!isVisible || !temp) return '';
+             return `<div class="result-section">
+                <div class="result-item"><span class="label">${title}</span><span class="value"></span></div>
+                <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Temperatur</span><span class="value">${temp.toFixed(1)} °C</span></div>
+                <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Relative Feuchte</span><span class="value">${rh.toFixed(1)} %</span></div>
+                <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Absolute Feuchte</span><span class="value">${x.toFixed(2)} g/kg</span></div>
+                <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Enthalpie</span><span class="value">${h.toFixed(2)} kJ/kg</span></div>
+            </div>`;
+        }
+        
+        function buildFlowBlock(rho, vol, mass) {
+             return `<div class="result-section">
+                <div class="result-item"><span class="label">🔁 Luftstrom</span><span class="value"></span></div>
+                <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Dichte Außenluft</span><span class="value">${rho.toFixed(3)} kg/m³</span></div>
+                <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Volumenstrom</span><span class="value">${vol.toFixed(0)} m³/h</span></div>
+                <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Massenstrom</span><span class="value">${mass.toFixed(0)} kg/h</span></div>
+            </div>`;
+        }
+        
+        function buildPerformanceBlocks() {
+            let html = "";
+            if (vorerhitzerLeistung_kW > 0) {
+                const deltaTHeiz = Math.abs(tempHeizVorlauf - tempHeizRuecklauf);
+                const wasserVolumenstrom_m3_h = deltaTHeiz > 0 ? (vorerhitzerLeistung_kW / (1000 * CP_WASSER * deltaTHeiz)) * 3600 : 0;
+                html += `
+                <div class="result-section">
+                    <div class="result-item"><span class="label">🔥 Vorerhitzer (Frostschutz)</span><span class="value"></span></div>
+                    <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Heizleistung</span><span class="value">${vorerhitzerLeistung_kW.toFixed(2)} kW</span></div>
+                    <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Wasser-Volumenstrom</span><span class="value">${wasserVolumenstrom_m3_h.toFixed(2)} m³/h</span></div>
+                </div>`;
+            }
+            if (kaelteleistung_kW > 0) {
+                 const deltaTKuehl = Math.abs(tempKuehlRuecklauf - tempKuehlVorlauf);
+                 const wasserVolumenstrom_m3_h = deltaTKuehl > 0 ? (kaelteleistung_kW / (1000 * CP_WASSER * deltaTKuehl)) * 3600 : 0;
+                 html += `
+                 <div class="result-section">
+                    <div class="result-item"><span class="label">💧 Kühler / Entfeuchtung</span><span class="value"></span></div>
+                    <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Kälteleistung</span><span class="value">${kaelteleistung_kW.toFixed(2)} kW</span></div>
+                    <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Wasser-Volumenstrom</span><span class="value">${wasserVolumenstrom_m3_h.toFixed(2)} m³/h</span></div>
+                    ${kondensatmenge_kg_h > 0 ? `<div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Kondensatmenge</span><span class="value">${kondensatmenge_kg_h.toFixed(2)} kg/h</span></div>` : ''}
+                </div>`;
+            }
+            if (nacherhitzerLeistung_kW > 0) {
+                const deltaTHeiz = Math.abs(tempHeizVorlauf - tempHeizRuecklauf);
+                const wasserVolumenstrom_m3_h = deltaTHeiz > 0 ? (nacherhitzerLeistung_kW / (1000 * CP_WASSER * deltaTHeiz)) * 3600 : 0;
+                html += `
+                <div class="result-section">
+                    <div class="result-item"><span class="label">🔥 Nacherhitzer</span><span class="value"></span></div>
+                    <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Heizleistung</span><span class="value">${nacherhitzerLeistung_kW.toFixed(2)} kW</span></div>
+                    <div class="result-item"><span class="label">&nbsp;&nbsp;&nbsp;- Wasser-Volumenstrom</span><span class="value">${wasserVolumenstrom_m3_h.toFixed(2)} m³/h</span></div>
+                </div>`;
+            }
+            return html ? `<hr><h2>Leistungen der Aggregate</h2>${html}` : '';
+        }
+
+        function buildSimpleProcessHtml(stateV) {
+            return buildStateBlock("🌡️ Nach Vorerhitzer", stateV?.temp, stateV?.rh, stateV?.x, stateV?.h, stateV);
+        }
+        
+        function buildFullProcessHtml(stateV, stateK) {
+            return `
+                ${buildStateBlock("🌡️ Nach Vorerhitzer", stateV?.temp, stateV?.rh, stateV?.x, stateV?.h, stateV)}
+                ${buildStateBlock("💧 Nach Kühler", stateK.temp, getRh(stateK.temp, stateK.x, druck_Pa), stateK.x, getH(stateK.temp, stateK.x))}
+            `;
+        }
     }
 
     // --- Event Listeners ---
     inputs.forEach(input => input.addEventListener('input', calculate));
-
-    // Initial calculation on page load
     document.addEventListener('DOMContentLoaded', calculate);
-
 </script>
 </body>
 </html>
